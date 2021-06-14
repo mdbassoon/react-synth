@@ -402,7 +402,7 @@ class Synth extends React.Component {
       this.stopNote(pitch);
     });
     //MIDI Events
-    if(navigator&&navigator.requestMIDIAccess()){
+    /*if(navigator&&navigator.requestMIDIAccess()){
       navigator.requestMIDIAccess()
       .then((access) => {
         console.log(access);
@@ -419,7 +419,7 @@ class Synth extends React.Component {
           input.onmidimessage = getMIDIMessage;
         }
       });
-    }
+    }*/
   }
   refreshContext(func) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
