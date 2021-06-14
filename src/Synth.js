@@ -402,22 +402,24 @@ class Synth extends React.Component {
       this.stopNote(pitch);
     });
     //MIDI Events
-    navigator.requestMIDIAccess()
-        .then((access) => {
-          console.log(access);
-          const getMIDIMessage = message => {
-            const pitch = this.midiToPitch(message.data[1]);
-            console.log(pitch);
-            if(message.data[0]===144){
-              this.playOrgan(pitch);
-            } else if(message.data[0]===128) {
-              this.stopNote(pitch);
-            }
+    if(navigator&&navigator.requestMIDIAccess()){
+      navigator.requestMIDIAccess()
+      .then((access) => {
+        console.log(access);
+        const getMIDIMessage = message => {
+          const pitch = this.midiToPitch(message.data[1]);
+          console.log(pitch);
+          if(message.data[0]===144){
+            this.playOrgan(pitch);
+          } else if(message.data[0]===128) {
+            this.stopNote(pitch);
           }
-          for (let input of access.inputs.values()){
-            input.onmidimessage = getMIDIMessage;
-          }
-        });
+        }
+        for (let input of access.inputs.values()){
+          input.onmidimessage = getMIDIMessage;
+        }
+      });
+    }
   }
   refreshContext(func) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
